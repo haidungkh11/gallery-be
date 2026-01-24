@@ -63,7 +63,7 @@ public class WebSecurityConfig{
         CorsConfiguration config = new CorsConfiguration();
 
         // ❗ KHÔNG dùng "*"
-        config.setAllowedOrigins(List.of("http://localhost:4200"));
+        config.setAllowedOrigins(List.of("http://localhost:2432","http://192.168.1.11:2432"));
 
         config.setAllowedMethods(List.of(
                 "GET", "POST", "PUT", "DELETE", "OPTIONS"

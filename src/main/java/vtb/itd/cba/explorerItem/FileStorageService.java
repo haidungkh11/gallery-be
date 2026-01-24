@@ -2,6 +2,7 @@ package vtb.itd.cba.explorerItem;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import vtb.itd.cba.util.LogUtil;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,10 +15,11 @@ import java.util.UUID;
 @Service
 public class FileStorageService {
 
-    private final String rootDir = "D:/data/upload";
+    private final String rootDir = "/home/ledung/IdeaProjects/data/upload";
 
     public String save(MultipartFile file) throws IOException {
         try {
+            LogUtil.Info("BEGIN FileStorageService ");
             LocalDate now = LocalDate.now();
             String year = String.valueOf(now.getYear());
             String month = String.format("%02d", now.getMonthValue()); // 01, 02...
@@ -44,11 +46,21 @@ public class FileStorageService {
             // 5. Ghi file ra disk
             Path targetPath = uploadDir.resolve(filename);
             Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+            LogUtil.Info("UPLOAD ROOT DIR = " + uploadDir.toAbsolutePath());
+            LogUtil.Info("TARGET PATH = " + targetPath.toAbsolutePath());
+
+            LogUtil.Info("END FileStorageService ");
+            LogUtil.Info("File is null: " + (file == null));
+            LogUtil.Info("File is empty: " + file.isEmpty());
+            LogUtil.Info("File size: " + file.getSize());
+            LogUtil.Info("File name: " + file.getOriginalFilename());
+            LogUtil.Info("Content type: " + file.getContentType());
 
             // 6. Trả về path để lưu DB (URL public)
             return year + "/" + month + "/" + filename;
 
         } catch (IOException e) {
+            LogUtil.Info(e.getMessage());
             throw new RuntimeException("Cannot store file", e);
         }
     }

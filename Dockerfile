@@ -1,27 +1,34 @@
-# Sử dụng Maven image để build project (stage 1)
+# =========================
+# Stage 1: Build
+# =========================
 FROM maven:3.9.5-eclipse-temurin-17 AS build
 
-# Đặt thư mục làm việc trong container
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+
 WORKDIR /app
 
-# Copy file cấu hình và mã nguồn vào container
+# Copy trước pom + libs để cache dependency
 COPY pom.xml .
+COPY libs ./libs
+
+RUN mvn -B -q dependency:go-offline
+
+# Copy source sau
 COPY src ./src
 
-# Build project để tạo file JAR
+# Build
 RUN mvn clean package -DskipTests
 
-# Sử dụng openjdk 17 làm base image (stage 2)
-FROM openjdk:17-jdk-slim
+# =========================
+# Stage 2: Run
+# =========================
+FROM eclipse-temurin:17-jre
 
-# Đặt thư mục làm việc trong container
 WORKDIR /app
 
-# Copy file JAR đã build từ stage 1 vào image
-COPY --from=build /app/target/*.jar /app/ROOT.jar
+COPY --from=build /app/target/ROOT.jar app.jar
 
-# Chạy ứng dụng Spring Boot khi container khởi động
-CMD ["java", "-jar", "/app/ROOT.jar"]
+EXPOSE 1238
 
-# Expose port 8080 để có thể truy cập ứng dụng
-EXPOSE 8080
+ENTRYPOINT ["java","-jar","/app/app.jar"]

@@ -48,7 +48,7 @@ public class ExplorerItemService implements ExplorerItemServiceInterface{
                 item.setName(file.getOriginalFilename());
                 item.setType(file.getContentType().startsWith("video") ? "VIDEO" : "IMAGE");
                 item.setParentId(parentId == -1 ? null : parentId);
-                item.setUrl("http://localhost/files/" + path);
+                item.setUrl("/images/" + path);
 
                 result.add(explorerItemRepository.save(item));
 

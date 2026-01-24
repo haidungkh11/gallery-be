@@ -44,6 +44,11 @@
     <remote-repository>
       <option name="id" value="in-project" />
       <option name="name" value="In Project Repo" />
+      <option name="url" value="file://$PROJECT_DIR$/libs" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="in-project" />
+      <option name="name" value="In Project Repo" />
       <option name="url" value="file://D:\Gallery-be/libs" />
     </remote-repository>
   </component>
