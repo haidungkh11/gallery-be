@@ -24,15 +24,15 @@ public class JasyptConfig {
         
     	final SimpleStringPBEConfig pbeConfig = new SimpleStringPBEConfig();
         
-    	pbeConfig.setAlgorithm(CodeDefs.JASYPT_AlGORITHM.getStatusCode());
-        pbeConfig.setPassword(CodeDefs.JASYPT_PASSWORD.getStatusCode());  // Encrypt private key.
-        pbeConfig.setKeyObtentionIterations(CodeDefs.JASYPT_INTERATION.getStatusCode());
-        pbeConfig.setPoolSize(CodeDefs.JASYPT_POOLSIZE.getStatusCode());
+    	pbeConfig.setAlgorithm(CodeDefs.JASYPT_AlGORITHM.getCode());
+        pbeConfig.setPassword(CodeDefs.JASYPT_PASSWORD.getCode());  // Encrypt private key.
+        pbeConfig.setKeyObtentionIterations(CodeDefs.JASYPT_INTERATION.getCode());
+        pbeConfig.setPoolSize(CodeDefs.JASYPT_POOLSIZE.getCode());
         pbeConfig.setProviderName(null);
         pbeConfig.setProviderClassName(null);
-        pbeConfig.setSaltGeneratorClassName(CodeDefs.JASYPT_SALT_CLASSNAME.getStatusCode());
-        pbeConfig.setIvGeneratorClassName(CodeDefs.JASYPT_IV_CLASSNAME.getStatusCode());
-        pbeConfig.setStringOutputType(CodeDefs.JASYPT_STRING_OUTPUT.getStatusCode());
+        pbeConfig.setSaltGeneratorClassName(CodeDefs.JASYPT_SALT_CLASSNAME.getCode());
+        pbeConfig.setIvGeneratorClassName(CodeDefs.JASYPT_IV_CLASSNAME.getCode());
+        pbeConfig.setStringOutputType(CodeDefs.JASYPT_STRING_OUTPUT.getCode());
  
         return pbeConfig;
     }

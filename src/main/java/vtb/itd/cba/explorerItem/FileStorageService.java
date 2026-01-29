@@ -2,6 +2,8 @@ package vtb.itd.cba.explorerItem;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import vtb.itd.cba.config.AppException;
+import vtb.itd.cba.config.CodeDefs;
 import vtb.itd.cba.util.LogUtil;
 
 import java.io.IOException;
@@ -61,7 +63,7 @@ public class FileStorageService {
 
         } catch (IOException e) {
             LogUtil.Info(e.getMessage());
-            throw new RuntimeException("Cannot store file", e);
+            throw new AppException(CodeDefs.RETURN_CODE_EXCEPTION);
         }
     }
     public void delete(String relativePath) {
@@ -83,7 +85,7 @@ public class FileStorageService {
             Files.deleteIfExists(filePath);
 
         } catch (IOException e) {
-            throw new RuntimeException("Cannot delete file: " + relativePath, e);
+            throw new AppException(CodeDefs.RETURN_CODE_EXCEPTION);
         }
     }
 }

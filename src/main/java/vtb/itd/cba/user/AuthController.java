@@ -40,7 +40,7 @@ public class AuthController {
         return ResponseEntity.ok(
                 new ResponseObject<>(
                         requestId,
-                        CodeDefs.RETURN_CODE_SUCCEED.getStatusCode(),
+                        CodeDefs.RETURN_CODE_SUCCEED.getCode(),
                         CodeDefs.RETURN_CODE_SUCCEED.getDescription(),
                         jwtService.generateToken((UserDetails) auth.getPrincipal())
                 )
@@ -53,7 +53,7 @@ public class AuthController {
         return ResponseEntity.ok(
                 new ResponseObject<>(
                         requestId,
-                        CodeDefs.RETURN_CODE_SUCCEED.getStatusCode(),
+                        CodeDefs.RETURN_CODE_SUCCEED.getCode(),
                         CodeDefs.RETURN_CODE_SUCCEED.getDescription(),
                         userServiceInterface.save(user)
                 )

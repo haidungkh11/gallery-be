@@ -3,65 +3,48 @@
  */
 package vtb.itd.cba.config;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.experimental.FieldDefaults;
 import org.apache.poi.ss.formula.functions.T;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 
-/**
- * @author DuongNT
- * CODE DEFINATION for APPLICATION
- */
+
+@Getter
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum CodeDefs {
 
 
-    RETURN_CODE_SUCCEED("00", "XU LY THANH CONG"),
-    RETURN_CODE_ACTIVE("01", "HOAT DONG"),
-    RETURN_CODE_FIELD_NOT_VALID("07", "GIA TRI TRUONG KHONG HOP LE"),
-    RETURN_CODE_EXCEPTION("02", "CO LOI XAY RA"),
-    RETURN_CODE_DUPLICATE("03", "BAN GHI BI LAP"),
-    RETURN_CODE_EXIST("04", "BAN GHI DA TON TAI"),
-    RETURN_CODE_NOT_EXIST("05", "BAN GHI CHUA TON TAI"),
-    RETURN_CODE_CHECK_DATA_INPUT("06", "DAU VAO KHONG HOP LE"),
-    RETURN_CODE_STATUS_INVALID("09", "TRANG THAI KHONG HOP LE"),
+    RETURN_CODE_SUCCEED("00", "XỬ LÝ THÀNH CÔNG", HttpStatus.OK),
+
+    RETURN_CODE_EXCEPTION("02", "CÓ LỖI XẢY RA",HttpStatus.BAD_REQUEST),
+
+    RETURN_CODE_EXIST_CHILDREN_ITEM("03", "CHỈ CÓ THỂ XÓA THƯ MỤC TRỐNG",HttpStatus.BAD_REQUEST),
+
+    RETURN_CODE_NOT_FOUND("04","KHÔNG TÌM THẤY BẢN GHI",HttpStatus.NOT_FOUND),
+
+
 
     // JASYPT CONFIG
-    JASYPT_AlGORITHM("PBEWITHHMACSHA512ANDAES_256", "THUAT TOAN"),
-    JASYPT_PASSWORD("g7%#$Ghd$f609h7(%36#2fduyd!Xsdk1ax", "MAT KHAU"),
+    JASYPT_AlGORITHM("PBEWITHHMACSHA512ANDAES_256", "THUAT TOAN", HttpStatus.OK),
+    JASYPT_PASSWORD("g7%#$Ghd$f609h7(%36#2fduyd!Xsdk1ax", "MAT KHAU", HttpStatus.OK),
 
-    JASYPT_INTERATION(1000, "INTERATION"),
-    JASYPT_POOLSIZE(1, "POOLSIZE"),
-    JASYPT_SALT_CLASSNAME("org.jasypt.salt.RandomSaltGenerator", "TEN CLASS GEN SALT"),
-    JASYPT_IV_CLASSNAME("org.jasypt.iv.RandomIvGenerator", "IV CLASS NAME"),
-    JASYPT_STRING_OUTPUT("base64", "MA HOA");
+    JASYPT_INTERATION("1000", "INTERATION",HttpStatus.OK),
+    JASYPT_POOLSIZE("1", "POOLSIZE",HttpStatus.OK),
+    JASYPT_SALT_CLASSNAME("org.jasypt.salt.RandomSaltGenerator", "TEN CLASS GEN SALT", HttpStatus.OK),
+    JASYPT_IV_CLASSNAME("org.jasypt.iv.RandomIvGenerator", "IV CLASS NAME", HttpStatus.OK),
+    JASYPT_STRING_OUTPUT("base64", "MA HOA", HttpStatus.OK);
 
 
-    private final String statusCode;
+    private final String code;
     private final String description;
 
-    private final Integer parameter;
+    private final HttpStatusCode statusCode;
 
-    // Constructor của enum
-    CodeDefs(String statusCode, String description) {
-        this.statusCode = statusCode;
-        this.description = description;
-        this.parameter = null;
-    }
 
-    CodeDefs(Integer parameter, String description) {
-        this.statusCode = String.valueOf(parameter);
-        this.parameter = parameter;
-        this.description = description;
-    }
 
-    public Integer getParameter() {
-        return parameter;
-    }
 
-    // Getter cho status
-    public String getStatusCode() {
-        return statusCode;
-    }
-
-    // Getter cho description
-    public String getDescription() {
-        return description;
-    }
 }

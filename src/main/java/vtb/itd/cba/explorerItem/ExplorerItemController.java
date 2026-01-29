@@ -25,7 +25,7 @@ public class ExplorerItemController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseObject<>(
                         requestId,
-                        CodeDefs.RETURN_CODE_SUCCEED.getStatusCode(),
+                        CodeDefs.RETURN_CODE_SUCCEED.getCode(),
                         CodeDefs.RETURN_CODE_SUCCEED.getDescription(),
                         explorerItemService.findRootItems()
                 ));
@@ -39,7 +39,7 @@ public class ExplorerItemController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseObject<>(
                         requestId,
-                        CodeDefs.RETURN_CODE_SUCCEED.getStatusCode(),
+                        CodeDefs.RETURN_CODE_SUCCEED.getCode(),
                         CodeDefs.RETURN_CODE_SUCCEED.getDescription(),
                         explorerItemService.findChildrenItems(explorerItem.getParentId())
                 ));
@@ -52,7 +52,7 @@ public class ExplorerItemController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseObject<>(
                         requestId,
-                        CodeDefs.RETURN_CODE_SUCCEED.getStatusCode(),
+                        CodeDefs.RETURN_CODE_SUCCEED.getCode(),
                         CodeDefs.RETURN_CODE_SUCCEED.getDescription(),
                         explorerItemService.saveFolder(explorerItem)
                 ));
@@ -69,7 +69,7 @@ public class ExplorerItemController {
         return ResponseEntity.ok(
                 new ResponseObject<>(
                         requestId,
-                        CodeDefs.RETURN_CODE_SUCCEED.getStatusCode(),
+                        CodeDefs.RETURN_CODE_SUCCEED.getCode(),
                         CodeDefs.RETURN_CODE_SUCCEED.getDescription(),
                         explorerItemService.uploadFile(files, parentId)
                 )
@@ -84,7 +84,7 @@ public class ExplorerItemController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseObject<>(
                         requestId,
-                        CodeDefs.RETURN_CODE_SUCCEED.getStatusCode(),
+                        CodeDefs.RETURN_CODE_SUCCEED.getCode(),
                         CodeDefs.RETURN_CODE_SUCCEED.getDescription(),
                         explorerItemService.deleteExplorerItem(explorerItem)
                 ));

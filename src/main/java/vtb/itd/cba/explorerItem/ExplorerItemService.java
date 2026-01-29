@@ -4,6 +4,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import vtb.itd.cba.config.AppException;
+import vtb.itd.cba.config.CodeDefs;
 
 
 import java.io.IOException;
@@ -54,7 +56,7 @@ public class ExplorerItemService implements ExplorerItemServiceInterface{
                 result.add(explorerItemRepository.save(item));
 
             }  catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new AppException(CodeDefs.RETURN_CODE_EXCEPTION);
             }
         }
         return result;
@@ -64,13 +66,14 @@ public class ExplorerItemService implements ExplorerItemServiceInterface{
     @Override
     public String deleteExplorerItem(List<ExplorerItem> explorerItems) {
 
+
         for (ExplorerItem e : explorerItems){
             ExplorerItem item = explorerItemRepository.findById(e.getId())
-                    .orElseThrow(() -> new RuntimeException("Item not found"));
+                    .orElseThrow(() ->  new AppException(CodeDefs.RETURN_CODE_EXCEPTION));
 
             boolean existChildrenItem = explorerItemRepository.existsChildrenItem(item.getId());
             if(existChildrenItem){
-                throw new RuntimeException();
+                throw new AppException(CodeDefs.RETURN_CODE_EXIST_CHILDREN_ITEM);
             }
 
             // Xóa file vật lý
