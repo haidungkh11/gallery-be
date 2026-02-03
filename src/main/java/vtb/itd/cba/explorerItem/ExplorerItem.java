@@ -55,6 +55,14 @@ public class ExplorerItem implements Serializable {
     @Column(name = "MODIFIED_TIME",updatable = false)
     protected Date modifiedTime;
 
+    @Transient
+    private int page = 0;
+
+    @Transient
+    private int size = 10;
+
+
+
 
 
 }

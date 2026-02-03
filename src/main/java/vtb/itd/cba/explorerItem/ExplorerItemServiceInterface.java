@@ -1,5 +1,6 @@
 package vtb.itd.cba.explorerItem;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 public interface ExplorerItemServiceInterface {
     List<ExplorerItem> findRootItems();
 
-    List<ExplorerItem> findChildrenItems(Long parentId);
+    Page<ExplorerItem> findChildrenItems(ExplorerItem explorerItem);
 
     ExplorerItem saveFolder(ExplorerItem explorerItem);
 
@@ -15,5 +16,5 @@ public interface ExplorerItemServiceInterface {
 
     String deleteExplorerItem(List<ExplorerItem> explorerItems);
 
-
+    ExplorerItem changeNameFolder(ExplorerItem explorerItem);
 }

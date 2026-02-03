@@ -1,5 +1,7 @@
 package vtb.itd.cba.explorerItem;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -9,8 +11,7 @@ public interface ExplorerItemRepository extends JpaRepository<ExplorerItem,Long>
     @Query(value = "select * from explorer_item ei where ei.parent_id is null ", nativeQuery = true)
     List<ExplorerItem> findRootItems();
 
-    @Query(value = "select * from explorer_item ei where ei.parent_id = ?1 ", nativeQuery = true)
-    List<ExplorerItem> findChildrenItems(Long parentId);
+    Page<ExplorerItem> findExplorerItemsByParentId(Long parentId, Pageable pageable);
 
     @Query(value = "select exists (select 1 from explorer_item e where e.parent_id = ?1)", nativeQuery = true)
     boolean existsChildrenItem(Long parentId);

@@ -2,6 +2,7 @@ package vtb.itd.cba.explorerItem;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.formula.functions.T;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class ExplorerItemController {
     }
 
     @PostMapping(value = "/api/ledung/gallery/findChildrenItem")
-    ResponseEntity<ResponseObject<List<ExplorerItem>>> findChildrenItem(@RequestHeader("RequestId") String requestId,
+    ResponseEntity<ResponseObject<Page<ExplorerItem>>> findChildrenItem(@RequestHeader("RequestId") String requestId,
                                                                         @RequestBody ExplorerItem explorerItem){
         LogUtil.Info("BEGIN CONTROLLER findChildrenItem with requestId: " + requestId);
 
@@ -41,7 +42,7 @@ public class ExplorerItemController {
                         requestId,
                         CodeDefs.RETURN_CODE_SUCCEED.getCode(),
                         CodeDefs.RETURN_CODE_SUCCEED.getDescription(),
-                        explorerItemService.findChildrenItems(explorerItem.getParentId())
+                        explorerItemService.findChildrenItems(explorerItem)
                 ));
     }
     @PostMapping(value = "/api/ledung/gallery/createFolder")
@@ -76,17 +77,17 @@ public class ExplorerItemController {
         );
     }
 
-    @PostMapping(value = "/api/ledung/gallery/deleteItem")
-    ResponseEntity<ResponseObject<String>> deleteItem(@RequestHeader("RequestId") String requestId,
-                                                 @RequestBody List<ExplorerItem> explorerItem){
-        LogUtil.Info("BEGIN CONTROLLER findChildrenItem with requestId: " + requestId);
+    @PostMapping(value = "/api/ledung/gallery/changeNameFolder")
+    ResponseEntity<ResponseObject<ExplorerItem>> changeNameFolder(@RequestHeader("RequestId") String requestId,
+                                                 @RequestBody ExplorerItem explorerItem){
+        LogUtil.Info("BEGIN CONTROLLER changeNameFolder with requestId: " + requestId);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseObject<>(
                         requestId,
                         CodeDefs.RETURN_CODE_SUCCEED.getCode(),
                         CodeDefs.RETURN_CODE_SUCCEED.getDescription(),
-                        explorerItemService.deleteExplorerItem(explorerItem)
+                        explorerItemService.changeNameFolder(explorerItem)
                 ));
     }
 
