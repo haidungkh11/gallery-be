@@ -23,7 +23,7 @@ public class FileStorageService {
 
     private final String rootDir = "/home/ledung/IdeaProjects/data/upload";
 
-    private final ExplorerItemService explorerItemService;
+    private final ExplorerItemRepository explorerItemRepository;
 
 
     public List<ExplorerItem> uploadFile(MultipartFile[] files, Long parentId) {
@@ -41,7 +41,7 @@ public class FileStorageService {
                 item.setParentId(parentId == -1 ? null : parentId);
                 item.setUrl("/images/" + path);
 
-                result.add(explorerItemService.saveFile(item));
+                result.add(explorerItemRepository.save(item));
 
             }  catch (IOException e) {
                 if (path != null) {

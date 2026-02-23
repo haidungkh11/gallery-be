@@ -44,12 +44,6 @@ public class ExplorerItemService implements ExplorerItemServiceInterface{
     }
 
 
-
-    @Transactional
-    public ExplorerItem saveFile(ExplorerItem explorerItem){
-        return explorerItemRepository.save(explorerItem);
-    }
-
     @Transactional
     @Override
     public String deleteExplorerItem(List<ExplorerItem> explorerItems) {
