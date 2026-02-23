@@ -1,5 +1,6 @@
 package vtb.itd.cba.explorerItem;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import vtb.itd.cba.config.AppException;
@@ -12,12 +13,49 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class FileStorageService {
 
     private final String rootDir = "/home/ledung/IdeaProjects/data/upload";
+
+    private final ExplorerItemService explorerItemService;
+
+
+    public List<ExplorerItem> uploadFile(MultipartFile[] files, Long parentId) {
+
+        List<ExplorerItem> result = new ArrayList<>();
+        String path = null;
+
+        for (MultipartFile file : files) {
+            try {
+                path = this.save(file);
+
+                ExplorerItem item = new ExplorerItem();
+                item.setName(file.getOriginalFilename());
+                item.setType(file.getContentType().startsWith("video") ? "VIDEO" : "IMAGE");
+                item.setParentId(parentId == -1 ? null : parentId);
+                item.setUrl("/images/" + path);
+
+                result.add(explorerItemService.saveFile(item));
+
+            }  catch (IOException e) {
+                if (path != null) {
+                    try {
+                        delete("/" + path);
+                    } catch (Exception ex) {
+                        LogUtil.Info("Rollback file delete failed: " + ex.getMessage());
+                    }
+                }
+                throw new AppException(CodeDefs.RETURN_CODE_EXCEPTION);
+            }
+        }
+        return result;
+    }
 
     public String save(MultipartFile file) throws IOException {
         try {

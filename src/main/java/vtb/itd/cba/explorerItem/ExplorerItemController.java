@@ -19,6 +19,8 @@ import java.util.List;
 public class ExplorerItemController {
     private final ExplorerItemServiceInterface explorerItemService;
 
+    private final FileStorageService fileStorageService;
+
     @GetMapping(value = "/api/ledung/gallery/findRootItem")
     ResponseEntity<ResponseObject<List<ExplorerItem>>> listAllItemRoot(@RequestHeader("RequestId") String requestId){
         LogUtil.Info("BEGIN CONTROLLER listAllItemRoot with requestId: " + requestId);
@@ -72,7 +74,7 @@ public class ExplorerItemController {
                         requestId,
                         CodeDefs.RETURN_CODE_SUCCEED.getCode(),
                         CodeDefs.RETURN_CODE_SUCCEED.getDescription(),
-                        explorerItemService.uploadFile(files, parentId)
+                        fileStorageService.uploadFile(files, parentId)
                 )
         );
     }
@@ -88,6 +90,20 @@ public class ExplorerItemController {
                         CodeDefs.RETURN_CODE_SUCCEED.getCode(),
                         CodeDefs.RETURN_CODE_SUCCEED.getDescription(),
                         explorerItemService.changeNameFolder(explorerItem)
+                ));
+    }
+
+    @PostMapping(value = "/api/ledung/gallery/deleteItem")
+    ResponseEntity<ResponseObject<String>> deleteItem(@RequestHeader("RequestId") String requestId,
+                                                      @RequestBody List<ExplorerItem> explorerItem){
+        LogUtil.Info("BEGIN CONTROLLER findChildrenItem with requestId: " + requestId);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseObject<>(
+                        requestId,
+                        CodeDefs.RETURN_CODE_SUCCEED.getCode(),
+                        CodeDefs.RETURN_CODE_SUCCEED.getDescription(),
+                        explorerItemService.deleteExplorerItem(explorerItem)
                 ));
     }
 

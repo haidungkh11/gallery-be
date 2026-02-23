@@ -44,29 +44,10 @@ public class ExplorerItemService implements ExplorerItemServiceInterface{
     }
 
 
-    @Override
+
     @Transactional
-    public List<ExplorerItem> uploadFile(MultipartFile[] files, Long parentId) {
-
-        List<ExplorerItem> result = new ArrayList<>();
-
-        for (MultipartFile file : files) {
-            try {
-                String path = fileStorageService.save(file);
-
-                ExplorerItem item = new ExplorerItem();
-                item.setName(file.getOriginalFilename());
-                item.setType(file.getContentType().startsWith("video") ? "VIDEO" : "IMAGE");
-                item.setParentId(parentId == -1 ? null : parentId);
-                item.setUrl("/images/" + path);
-
-                result.add(explorerItemRepository.save(item));
-
-            }  catch (IOException e) {
-                throw new AppException(CodeDefs.RETURN_CODE_EXCEPTION);
-            }
-        }
-        return result;
+    public ExplorerItem saveFile(ExplorerItem explorerItem){
+        return explorerItemRepository.save(explorerItem);
     }
 
     @Transactional

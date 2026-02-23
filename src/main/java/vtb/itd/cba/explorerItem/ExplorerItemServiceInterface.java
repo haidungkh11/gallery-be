@@ -12,7 +12,6 @@ public interface ExplorerItemServiceInterface {
 
     ExplorerItem saveFolder(ExplorerItem explorerItem);
 
-    List<ExplorerItem> uploadFile(MultipartFile[] files, Long parentId);
 
     String deleteExplorerItem(List<ExplorerItem> explorerItems);
 
