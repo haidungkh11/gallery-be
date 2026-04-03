@@ -1,6 +1,7 @@
 package vtb.itd.cba.explorerItem;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import vtb.itd.cba.config.AppException;
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -26,12 +28,10 @@ public class FileStorageService {
     private final ExplorerItemRepository explorerItemRepository;
 
 
-    public List<ExplorerItem> uploadFile(MultipartFile[] files, Long parentId) {
+    @Async("fileUploadExecutor")
+    public CompletableFuture<ExplorerItem> uploadSingleFile(MultipartFile file, Long parentId) {
 
-        List<ExplorerItem> result = new ArrayList<>();
-        String path = null;
-
-        for (MultipartFile file : files) {
+            String path = null;
             try {
                 path = this.save(file);
 
@@ -41,9 +41,11 @@ public class FileStorageService {
                 item.setParentId(parentId == -1 ? null : parentId);
                 item.setUrl("/images/" + path);
 
-                result.add(explorerItemRepository.save(item));
+                ExplorerItem saved = explorerItemRepository.save(item);
 
-            }  catch (IOException e) {
+                return CompletableFuture.completedFuture(saved);
+
+            }  catch (Exception e) {
                 if (path != null) {
                     try {
                         delete("/" + path);
@@ -53,8 +55,8 @@ public class FileStorageService {
                 }
                 throw new AppException(CodeDefs.RETURN_CODE_EXCEPTION);
             }
-        }
-        return result;
+
+
     }
 
     public String save(MultipartFile file) throws IOException {

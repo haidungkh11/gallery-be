@@ -19,7 +19,6 @@ import java.util.List;
 public class ExplorerItemController {
     private final ExplorerItemServiceInterface explorerItemService;
 
-    private final FileStorageService fileStorageService;
 
     @GetMapping(value = "/api/ledung/gallery/findRootItem")
     ResponseEntity<ResponseObject<List<ExplorerItem>>> listAllItemRoot(@RequestHeader("RequestId") String requestId){
@@ -74,7 +73,7 @@ public class ExplorerItemController {
                         requestId,
                         CodeDefs.RETURN_CODE_SUCCEED.getCode(),
                         CodeDefs.RETURN_CODE_SUCCEED.getDescription(),
-                        fileStorageService.uploadFile(files, parentId)
+                        explorerItemService.uploadFile(files, parentId)
                 )
         );
     }

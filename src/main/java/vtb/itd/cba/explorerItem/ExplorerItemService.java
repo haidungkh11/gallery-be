@@ -15,8 +15,10 @@ import vtb.itd.cba.config.CodeDefs;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -80,6 +82,21 @@ public class ExplorerItemService implements ExplorerItemServiceInterface{
             return explorerItemRepository.save(explorerItem1.get());
         }
         throw new AppException(CodeDefs.RETURN_CODE_NOT_FOUND);
+    }
+
+    public List<ExplorerItem> uploadFile(MultipartFile[] files, Long parentId) {
+
+        List<CompletableFuture<ExplorerItem>> futures = Arrays.stream(files)
+                .map(file -> fileStorageService.uploadSingleFile(file, parentId))
+                .toList();
+
+        CompletableFuture.allOf(
+                futures.toArray(new CompletableFuture[0])
+        ).join();
+
+        return futures.stream()
+                .map(CompletableFuture::join)
+                .toList();
     }
 
 
